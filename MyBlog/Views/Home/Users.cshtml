@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Users";
+    bool isPreviousLinkVisible = ViewBag.IsPreviousLinkVisible ?? false;
+    bool isNextLinkVisible = ViewBag.IsNextLinkVisible ?? false;
+}
+
+@model List<MyBlog.Models.ApplicationUser>
+
+
+
+<h2>Users</h2>
+<table class="table">
+    <tr>
+        <th>Email</th>
+
+        <th>Full name</th>
+
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+
+            <td>
+                @if (item.FullName != null)
+                {
+                    @Html.DisplayFor(modelItem => item.FullName)
+                }
+                else
+                {
+                    <i>(no name)</i>
+                }
+
+            </td>
+           @if (item.FullName!= "System Administrator")
+           {
+               <td>@Html.ActionLink("Delete", "DeleteUser", new {id = item.Id})</td>
+           }
+           else
+           {
+            <td><i>This is Administrator.</i></td>
+           }
+
+
+
+        </tr>
+    }
+</table>
+@if (isPreviousLinkVisible)
+{
+    <a id="previousLink" href="@Href("~/Home/Users/" + (ViewBag.PageNumber - 1))">&lt; Previous Page</a>
+}
+@if (isNextLinkVisible)
+{
+    <a id="nextLink" href="@Href("~/Home/Users/"+(ViewBag.PageNumber+1))">Next Page &gt;</a>
+}
